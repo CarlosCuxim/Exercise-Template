@@ -32,17 +32,29 @@
 % OPERADORES BINARIOS ----------------------------------------------------------
 
 % Producto interno
-\newcommand{\bcdot}{\boldsymbol\cdot}
+\newcommand*{\bcdot}{\boldsymbol\cdot}
 
 
 
 % SIMBOLOS DE CONJUNTOS --------------------------------------------------------
 
-\newcommand*{\N}{\mathbb{N}}
-\newcommand*{\Z}{\mathbb{Z}}
-\newcommand*{\Q}{\mathbb{Q}}
-\newcommand*{\R}{\mathbb{R}}
-\newcommand*{\C}{\mathbb{C}}
+% Función que crea un conjunto de comandos de una letra. Tiene 3 elementos de
+% entrada, primero el comando el cual se aplicará a las letras, luego un prefijo
+% para los comandos y finalmente el conjunto de letras al que se aplicará en
+% formato de una lista separada por comas. Dará un error si el comando ya está
+% definido
+\def\qx@makelettercs#1#2#3{%
+  \@for\@Li:=#3\do{%
+    \ifcsname#2\@Li\endcsname%
+      \PackageError{qx-math}{Comando existente}{El comando \expandafter\string\csname#2\@Li\endcsname\space ya existe, por favor definirlo manualmente}%
+    \else%
+      \expandafter\protected@edef\csname#2\@Li\endcsname{#1\@Li}%
+    \fi%
+  }%
+}
+
+% Letras dobles
+\qx@makelettercs{\mathbb}{}{N,Z,Q,R,C}
 
 
 
@@ -70,11 +82,11 @@
 % INTERCAMBIO DE COMANDOS ------------------------------------------------------
 
 % Comando para intercambiar el valor de dos comandos
-\def\qxSwapCommands#1#2{\let\qxAux=#1\let#1=#2\let#2=\qxAux}
+\def\qx@SwapCommands#1#2{\let\qxAux=#1\let#1=#2\let#2=\qxAux}
 
-\qxSwapCommands\epsilon\varepsilon
-\qxSwapCommands\Re\varRe
-\qxSwapCommands\Im\varIm
+\qx@SwapCommands\epsilon\varepsilon
+\qx@SwapCommands\Re\varRe
+\qx@SwapCommands\Im\varIm
 
 
 
