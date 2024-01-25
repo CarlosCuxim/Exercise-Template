@@ -27,6 +27,18 @@
 \DeclareMathOperator{\varRe}{Re}
 \DeclareMathOperator{\varIm}{Im}
 
+% Función para crear operadores cuyo nombre es el mismo que el del comando
+\def\qx@makeoperators#1{%
+  \@for\@Li:=#1\do{%
+    \ifcsname\@Li\endcsname
+      \PackageError{qx-math}{Comando existente}{El comando \expandafter\string\csname\@Li\endcsname\space ya existe, por favor definirlo manualmente}%
+    \else
+      \expandafter\protected@edef\csname\@Li\endcsname{\operatorname{\@Li}}%
+    \fi
+  }}
+
+\qx@makeoperators{mcm,mcd}
+
 
 
 % OPERADORES BINARIOS ----------------------------------------------------------
@@ -55,6 +67,11 @@
 
 % Letras dobles
 \qx@makelettercs{\mathbb}{}{N,Z,Q,R,C}
+
+
+% FRACCIONES -------------------------------------------------------------------
+
+\newcommand{\legen}[2]{\genfrac{(}{)}{}{}{#1}{#2}}
 
 
 
